@@ -27,6 +27,16 @@ void UPuzzlePlatformsGameInstance::Init()
 	UE_LOG(LogTemp, Warning, TEXT("GameInstance Init"));
 }
 
+void UPuzzlePlatformsGameInstance::LoadMenu()
+{
+	if (MenuClass != nullptr)
+	{
+		UUserWidget* Menu = CreateWidget<UUserWidget>(this, MenuClass);//CreateWidget<UUserWidget,UWorld>(GetWorld(), MenuClass, FName(TEXT("MainMenu")));
+		if (!ensure(Menu != nullptr)) return;
+		Menu->AddToViewport();
+	}
+}
+
 void UPuzzlePlatformsGameInstance::Host()
 {
 	UEngine* Engine = GetEngine();
