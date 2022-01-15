@@ -22,9 +22,19 @@ bool UMainMenu::Initialize()
 void UMainMenu::OnHostClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Host button clicked"));
+
+	if (MenuInterface)
+	{
+		MenuInterface->Host();
+	}
 }
 
 void UMainMenu::OnJoinClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Join button clicked"));
+}
+
+void UMainMenu::SetMenuInterface(IMenuInterface* MenuInterfaceImplementation)
+{
+	this->MenuInterface = MenuInterfaceImplementation;
 }

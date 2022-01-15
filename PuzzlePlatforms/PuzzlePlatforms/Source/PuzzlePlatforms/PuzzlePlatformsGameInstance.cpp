@@ -8,6 +8,7 @@
 #include "Blueprint/UserWidget.h"
 
 #include "PlatformTrigger.h"
+#include "MenuSystem/MainMenu.h"
 
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance(const FObjectInitializer& ObjectInitializer)
 {
@@ -31,7 +32,7 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 {
 	if (MenuClass != nullptr)
 	{
-		UUserWidget* Menu = CreateWidget<UUserWidget>(this, MenuClass);//CreateWidget<UUserWidget,UWorld>(GetWorld(), MenuClass, FName(TEXT("MainMenu")));
+		UMainMenu* Menu = CreateWidget<UMainMenu>(this, MenuClass);//CreateWidget<UUserWidget,UWorld>(GetWorld(), MenuClass, FName(TEXT("MainMenu")));
 		if (!ensure(Menu != nullptr)) return;
 		Menu->AddToViewport();
 		//MainMenu->bIsFocusable = true;
@@ -48,11 +49,15 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 		PlayerController->SetInputMode(InputModeData);
 
 		PlayerController->bShowMouseCursor = true;
+
+		Menu->SetMenuInterface(this);
 	}
 }
 
 void UPuzzlePlatformsGameInstance::Host()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Hosting"));
+
 	UEngine* Engine = GetEngine();
 
 	if (!ensure(Engine != nullptr)) return;
@@ -67,6 +72,8 @@ void UPuzzlePlatformsGameInstance::Host()
 
 void UPuzzlePlatformsGameInstance::Join(const FString& Address)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Joining"));
+
 	UEngine* Engine = GetEngine();
 
 	if (!ensure(Engine != nullptr)) return;
