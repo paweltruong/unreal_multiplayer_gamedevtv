@@ -29,12 +29,34 @@ private:
 		class UButton* HostButton;
 
 	UPROPERTY(meta = (BindWidget))
+		class UButton* JoinMenuButton;
+
+	UPROPERTY(meta = (BindWidget))
+		class UButton* MainMenuButton;
+
+	UPROPERTY(meta = (BindWidget))
 		class UButton* JoinButton;
+
+	UPROPERTY(meta = (BindWidget))
+		class UWidgetSwitcher* MenuSwitcher;
+
+	UPROPERTY(meta = (BindWidget))
+		class UWidget* JoinMenu;
+
+	UPROPERTY(meta = (BindWidget))
+		class UWidget* MainMenu;
+
+	UPROPERTY(meta = (BindWidget))
+		class UEditableTextBox* IpAddressField;
 
 	UFUNCTION()
 		void OnHostClicked();
 	UFUNCTION()
 		void OnJoinClicked();
+	UFUNCTION()
+		void OpenJoinMenu();
+	UFUNCTION()
+		void OpenMainMenu();
 
 	IMenuInterface* MenuInterface;
 };
