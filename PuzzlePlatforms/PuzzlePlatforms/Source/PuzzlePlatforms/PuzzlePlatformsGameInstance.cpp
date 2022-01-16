@@ -9,6 +9,7 @@
 
 #include "PlatformTrigger.h"
 #include "MenuSystem/MainMenu.h"
+#include "menuSystem/MenuWidget.h"
 
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance(const FObjectInitializer& ObjectInitializer)
 {
@@ -20,6 +21,14 @@ UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance(const FObjectInitiali
 		MenuClass = MenuBPClass.Class;
 		//DefaultPawnClass = PlatformTriggerBPClass.Class;
 		UE_LOG(LogTemp, Warning, TEXT("Found class %sr"), *MenuBPClass.Class->GetName());
+	}
+
+
+	ConstructorHelpers::FClassFinder<UUserWidget> InGameMenuBPClass(TEXT("/Game/PuzzlePlatforms/MenuSystem/WBP_InGameMenu"));
+	if (InGameMenuBPClass.Class != NULL)
+	{
+		InGameMenuClass = InGameMenuBPClass.Class;
+		UE_LOG(LogTemp, Warning, TEXT("Found class %sr"), *InGameMenuBPClass.Class->GetName());
 	}
 }
 
@@ -83,4 +92,16 @@ void UPuzzlePlatformsGameInstance::Join(const FString& Address)
 
 	PlayerController->ClientTravel(Address, ETravelType::TRAVEL_Absolute);
 
+}
+
+void UPuzzlePlatformsGameInstance::LoadInGameMenu()
+{
+	if (InGameMenuClass != nullptr)
+	{
+		UMenuWidget* InGameMenu = CreateWidget<UMenuWidget>(this, InGameMenuClass);//CreateWidget<UUserWidget,UWorld>(GetWorld(), MenuClass, FName(TEXT("MainMenu")));
+		if (!ensure(InGameMenu != nullptr)) return;
+
+		InGameMenu->Setup();
+		InGameMenu->SetMenuInterface(this);
+	}
 }
