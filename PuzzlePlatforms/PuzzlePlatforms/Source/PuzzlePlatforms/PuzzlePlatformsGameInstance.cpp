@@ -105,3 +105,13 @@ void UPuzzlePlatformsGameInstance::LoadInGameMenu()
 		InGameMenu->SetMenuInterface(this);
 	}
 }
+
+void UPuzzlePlatformsGameInstance::LoadMainMenu()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Exit to menu"));
+
+	APlayerController* PlayerController = GetFirstLocalPlayerController();
+	if (!ensure(PlayerController != nullptr)) return;
+
+	PlayerController->ClientTravel("/Game/PuzzlePlatforms/MenuSystem/MainMenu", ETravelType::TRAVEL_Absolute);
+}

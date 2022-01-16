@@ -24,8 +24,14 @@ bool UInGameMenu::Initialize()
 
 void UInGameMenu::OnCancelClicked()
 {
+	TearDown();
 }
 
 void UInGameMenu::OnQuitClicked()
 {
+	if (MenuInterface != nullptr)
+	{
+		TearDown();
+		MenuInterface->LoadMainMenu();
+	}
 }
