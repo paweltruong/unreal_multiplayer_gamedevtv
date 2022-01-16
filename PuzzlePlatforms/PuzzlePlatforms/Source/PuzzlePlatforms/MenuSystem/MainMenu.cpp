@@ -4,6 +4,7 @@
 #include "MainMenu.h"
 #include "Components/Button.h"
 
+
 bool UMainMenu::Initialize()
 {
 	bool Success = Super::Initialize();
@@ -37,4 +38,47 @@ void UMainMenu::OnJoinClicked()
 void UMainMenu::SetMenuInterface(IMenuInterface* MenuInterfaceImplementation)
 {
 	this->MenuInterface = MenuInterfaceImplementation;
+}
+
+void UMainMenu::Setup()
+{
+	this->AddToViewport();
+	//MainMenu->bIsFocusable = true;
+
+	UWorld* World = GetWorld();
+	if (!ensure(World != nullptr)) return;
+
+	APlayerController* PlayerController = World->GetFirstPlayerController();//GetFirstLocalPlayerController();
+	if (!ensure(PlayerController != nullptr)) return;
+
+
+	FInputModeUIOnly InputModeData;
+	InputModeData.SetWidgetToFocus(this->TakeWidget());
+	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+
+	PlayerController->SetInputMode(InputModeData);
+
+	PlayerController->bShowMouseCursor = true;
+
+}
+
+void UMainMenu::TearDown()
+{
+	this->RemoveFromViewport();
+
+	UWorld* World = GetWorld();
+	if (!ensure(World != nullptr)) return;
+
+	APlayerController* PlayerController = World->GetFirstPlayerController();//GetFirstLocalPlayerController();
+	if (!ensure(PlayerController != nullptr)) return;
+
+
+	PlayerController->bShowMouseCursor = false;
+
+	FInputModeGameOnly InputModeData;
+	/*InputModeData.SetConsumeCaptureMouseDown
+		.SetWidgetToFocus(this->TakeWidget());
+	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);*/
+
+	PlayerController->SetInputMode(InputModeData);
 }

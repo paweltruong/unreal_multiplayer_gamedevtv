@@ -18,6 +18,8 @@ class PUZZLEPLATFORMS_API UMainMenu : public UUserWidget
 
 public:
 	void SetMenuInterface(IMenuInterface* MenuInterfaceImplementation);
+	void Setup();
+	void TearDown();
 
 protected:
 	virtual bool Initialize() override;
