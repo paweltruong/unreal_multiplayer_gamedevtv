@@ -22,6 +22,9 @@ protected:
 
 private:
 	UPROPERTY(meta = (BindWidget))
+		class UButton* ExitButton;
+
+	UPROPERTY(meta = (BindWidget))
 		class UButton* HostButton;
 
 	UPROPERTY(meta = (BindWidget))
@@ -45,6 +48,8 @@ private:
 	UPROPERTY(meta = (BindWidget))
 		class UEditableTextBox* IpAddressField;
 
+	UFUNCTION()
+		void OnExitClicked();
 	UFUNCTION()
 		void OnHostClicked();
 	UFUNCTION()

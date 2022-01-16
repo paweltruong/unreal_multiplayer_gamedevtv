@@ -31,6 +31,7 @@ public:
 		void LoadInGameMenu();
 
 	virtual void LoadMainMenu() override;
+	virtual void Quit() override;
 
 private:
 	TSubclassOf<class UUserWidget> MenuClass;

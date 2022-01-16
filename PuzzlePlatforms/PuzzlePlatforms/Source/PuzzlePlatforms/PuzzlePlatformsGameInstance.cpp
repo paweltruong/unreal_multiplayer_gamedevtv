@@ -115,3 +115,11 @@ void UPuzzlePlatformsGameInstance::LoadMainMenu()
 
 	PlayerController->ClientTravel("/Game/PuzzlePlatforms/MenuSystem/MainMenu", ETravelType::TRAVEL_Absolute);
 }
+
+void UPuzzlePlatformsGameInstance::Quit()
+{
+	APlayerController* PlayerController = GetFirstLocalPlayerController();
+	if (!ensure(PlayerController != nullptr)) return;
+
+	PlayerController->ConsoleCommand("quit", false);
+}

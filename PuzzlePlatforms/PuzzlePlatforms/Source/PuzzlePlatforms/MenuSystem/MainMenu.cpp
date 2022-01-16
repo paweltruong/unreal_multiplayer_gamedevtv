@@ -12,6 +12,8 @@ bool UMainMenu::Initialize()
 	bool Success = Super::Initialize();
 	if (!Success) return false;
 
+	if (!ExitButton) return false;
+	ExitButton->OnClicked.AddDynamic(this, &UMainMenu::OnExitClicked);
 
 	if (!HostButton) return false;
 	HostButton->OnClicked.AddDynamic(this, &UMainMenu::OnHostClicked);
@@ -26,6 +28,14 @@ bool UMainMenu::Initialize()
 	MainMenuButton->OnClicked.AddDynamic(this, &UMainMenu::OpenMainMenu);
 
 	return true;
+}
+
+void UMainMenu::OnExitClicked()
+{
+	if (MenuInterface)
+	{
+		MenuInterface->Quit();
+	}
 }
 
 void UMainMenu::OnHostClicked()
