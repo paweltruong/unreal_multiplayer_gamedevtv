@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "OnlineSubsystem.h"
+#include "Interfaces/OnlineSessionInterface.h"
 
 #include "MenuSystem/MenuInterface.h"
 
@@ -36,6 +37,7 @@ public:
 	virtual void LoadMainMenu() override;
 	virtual void Quit() override;
 	virtual void RefreshServerList() override;
+	virtual void Join(const uint32 Index) override;
 
 private:
 	TSubclassOf<class UUserWidget> MenuClass;
@@ -49,5 +51,6 @@ private:
 	void OnDestroySessionComplete(FName SessionName, bool Success);
 	void OnFindSessionsComplete(bool Success);
 	void CreateSession();
+	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 
 };
