@@ -7,6 +7,8 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
 #include "OnlineSubsystem.h"
+#include "OnlineSessionSettings.h"
+#include "Interfaces/OnlineSessionInterface.h"
 
 #include "PlatformTrigger.h"
 #include "MenuSystem/MainMenu.h"
@@ -41,6 +43,11 @@ void UPuzzlePlatformsGameInstance::Init()
 	if (Subsystem != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Found subsystem %s"), *Subsystem->GetSubsystemName().ToString());
+		SessionInterface = Subsystem->GetSessionInterface();
+		if (SessionInterface.IsValid())
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Found session interface"));
+		}
 	}
 	else
 	{
@@ -62,6 +69,22 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 
 void UPuzzlePlatformsGameInstance::Host()
 {
+	if (SessionInterface.IsValid())
+	{
+		FOnlineSessionSettings SessionSettings;
+		SessionInterface->CreateSession(0, TEXT("My Session Game"), SessionSettings);
+		SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnCreateSessionComplete);
+	}
+}
+
+void UPuzzlePlatformsGameInstance::OnCreateSessionComplete(FName SessionName, bool Success)
+{
+	if (!Success)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Could not create session"));
+		return;
+	}
+
 	if (Menu != nullptr)
 	{
 		Menu->TearDown();
@@ -73,7 +96,7 @@ void UPuzzlePlatformsGameInstance::Host()
 
 	if (!ensure(Engine != nullptr)) return;
 
-	Engine->AddOnScreenDebugMessage(0,2, FColor::Green, TEXT("Hosting"));
+	Engine->AddOnScreenDebugMessage(0, 2, FColor::Green, TEXT("Hosting"));
 
 	UWorld* World = GetWorld();
 	if (!ensure(World != nullptr)) return;
