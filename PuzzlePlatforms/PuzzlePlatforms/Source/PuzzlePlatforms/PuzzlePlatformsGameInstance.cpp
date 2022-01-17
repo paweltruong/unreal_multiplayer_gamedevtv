@@ -14,6 +14,8 @@
 #include "MenuSystem/MainMenu.h"
 #include "menuSystem/MenuWidget.h"
 
+const static FName SESSION_NAME = "My Session Game";
+
 UPuzzlePlatformsGameInstance::UPuzzlePlatformsGameInstance(const FObjectInitializer& ObjectInitializer)
 {
 	UE_LOG(LogTemp, Warning, TEXT("GameInstance Constructor"));
@@ -47,6 +49,8 @@ void UPuzzlePlatformsGameInstance::Init()
 		if (SessionInterface.IsValid())
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Found session interface"));
+			SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnCreateSessionComplete);
+			SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnDestroySessionComplete);
 		}
 	}
 	else
@@ -61,7 +65,7 @@ void UPuzzlePlatformsGameInstance::LoadMenu()
 	{
 		Menu = CreateWidget<UMainMenu>(this, MenuClass);//CreateWidget<UUserWidget,UWorld>(GetWorld(), MenuClass, FName(TEXT("MainMenu")));
 		if (!ensure(Menu != nullptr)) return;
-		
+
 		Menu->Setup();
 		Menu->SetMenuInterface(this);
 	}
@@ -71,9 +75,15 @@ void UPuzzlePlatformsGameInstance::Host()
 {
 	if (SessionInterface.IsValid())
 	{
-		FOnlineSessionSettings SessionSettings;
-		SessionInterface->CreateSession(0, TEXT("My Session Game"), SessionSettings);
-		SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnCreateSessionComplete);
+		auto ExistingSession = SessionInterface->GetNamedSession(SESSION_NAME);
+		if (ExistingSession != nullptr)
+		{
+			SessionInterface->DestroySession(SESSION_NAME);
+		}
+		else
+		{
+			CreateSession();
+		}
 	}
 }
 
@@ -102,6 +112,22 @@ void UPuzzlePlatformsGameInstance::OnCreateSessionComplete(FName SessionName, bo
 	if (!ensure(World != nullptr)) return;
 
 	World->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap?listen");
+}
+void UPuzzlePlatformsGameInstance::OnDestroySessionComplete(FName SessionName, bool Success)
+{
+	if (Success)
+	{
+		CreateSession();
+	}
+}
+
+void UPuzzlePlatformsGameInstance::CreateSession()
+{
+	if (SessionInterface.IsValid())
+	{
+		FOnlineSessionSettings SessionSettings;
+		SessionInterface->CreateSession(0, SESSION_NAME, SessionSettings);
+	}
 }
 
 void UPuzzlePlatformsGameInstance::Join(const FString& Address)
