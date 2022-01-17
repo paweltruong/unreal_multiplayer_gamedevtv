@@ -143,6 +143,15 @@ void UPuzzlePlatformsGameInstance::OnFindSessionsComplete(bool Success)
 			Data.MaxPlayers = SearchResult.Session.SessionSettings.NumPublicConnections;
 			Data.CurrentPlayers = Data.MaxPlayers - SearchResult.Session.NumOpenPublicConnections;
 			Data.HostUsername = SearchResult.Session.OwningUserName;
+			FString DataS;
+			if (SearchResult.Session.SessionSettings.Get(TEXT("Test"), DataS))
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Data found in settings: %s"), *DataS);
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Didnt get expected data"));
+			}
 			ServerNames.Add(Data);
 		}
 
@@ -187,6 +196,7 @@ void UPuzzlePlatformsGameInstance::CreateSession()
 		SessionSettings.bShouldAdvertise = true;
 		SessionSettings.bUsesPresence = true;
 		SessionSettings.bUseLobbiesIfAvailable = true;
+		SessionSettings.Set(TEXT("Test"), FString("Hello"), EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 
 		SessionInterface->CreateSession(0, SESSION_NAME, SessionSettings);
 	}
