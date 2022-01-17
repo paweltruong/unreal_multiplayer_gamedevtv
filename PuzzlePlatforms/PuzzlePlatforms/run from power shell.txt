@@ -1,3 +1,5 @@
 & "C:\Program Files (x86)\Epic Games\UE_4.27\Engine\Binaries\Win64\UE4Editor.exe" "C:\Repos\official github\unreal_multiplayer_gamedevtv\PuzzlePlatforms\PuzzlePlatforms\PuzzlePlatforms.uproject" -game -log
 
 Log LogOnline VeryVerbose
+
+& "C:\Program Files (x86)\Epic Games\UE_4.27\Engine\Binaries\Win64\UE4Editor.exe" "C:\Repos\official github\unreal_multiplayer_gamedevtv\PuzzlePlatforms\PuzzlePlatforms\PuzzlePlatforms.uproject" -game -log -nosteam

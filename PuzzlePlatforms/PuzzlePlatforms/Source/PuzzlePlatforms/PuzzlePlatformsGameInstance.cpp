@@ -134,10 +134,6 @@ void UPuzzlePlatformsGameInstance::OnFindSessionsComplete(bool Success)
 	{
 		TArray<FString> ServerNames;
 
-		ServerNames.Add("Test Server1");
-		ServerNames.Add("Test Server2");
-		ServerNames.Add("Test Server3");
-
 		for (const FOnlineSessionSearchResult& SearchResult : SessionSearch->SearchResults)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Found session names: %s"),*SearchResult.GetSessionIdStr());
@@ -166,7 +162,21 @@ void UPuzzlePlatformsGameInstance::CreateSession()
 	if (SessionInterface.IsValid())
 	{
 		FOnlineSessionSettings SessionSettings;
-		SessionSettings.bIsLANMatch = false;
+
+
+		IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
+		if (Subsystem != nullptr)
+		{
+			if (Subsystem->GetSubsystemName() == "NULL")
+			{
+				SessionSettings.bIsLANMatch = true;
+			}
+			else
+			{
+				SessionSettings.bIsLANMatch = false;
+			}			
+		}
+
 		SessionSettings.NumPublicConnections = 2;
 		SessionSettings.bShouldAdvertise = true;
 		SessionSettings.bUsesPresence = true;
