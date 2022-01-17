@@ -2,10 +2,25 @@
 
 
 #include "MainMenu.h"
+#include "UObject/ConstructorHelpers.h"
 #include "Components/Button.h"
 #include "Components/WidgetSwitcher.h"
 #include "Components/EditableTextBox.h"
 
+#include "ServerRow.h"
+
+
+UMainMenu::UMainMenu(const FObjectInitializer& ObjectInitializer)
+{
+	ConstructorHelpers::FClassFinder<UUserWidget> ServerRowBPClass(TEXT("/Game/PuzzlePlatforms/MenuSystem/WBP_ServerRow"));
+	if (ServerRowBPClass.Class != NULL)
+	{
+		ServerRowClass = ServerRowBPClass.Class;
+
+		UE_LOG(LogTemp, Warning, TEXT("Found class %s"), *ServerRowBPClass.Class->GetName());
+	}
+
+}
 
 bool UMainMenu::Initialize()
 {
@@ -54,7 +69,12 @@ void UMainMenu::OnJoinClicked()
 
 	if (MenuInterface && IpAddressField)
 	{
-		MenuInterface->Join(IpAddressField->GetText().ToString());
+		//MenuInterface->Join(IpAddressField->GetText().ToString());
+
+		UServerRow* ServerRow = CreateWidget<UServerRow>(this, ServerRowClass);
+		if (!ensure(ServerRow != nullptr)) return;
+
+		ServerList->AddChild(ServerRow);
 	}
 }
 
