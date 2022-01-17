@@ -23,6 +23,7 @@ void UMenuWidget::Setup()
 	if (!ensure(PlayerController != nullptr)) return;
 
 
+	//SetVisibility(ESlateVisibility::Visible);
 	FInputModeUIOnly InputModeData;
 	InputModeData.SetWidgetToFocus(this->TakeWidget());
 	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
@@ -46,6 +47,7 @@ void UMenuWidget::TearDown()
 
 	PlayerController->bShowMouseCursor = false;
 
+	//SetVisibility(ESlateVisibility::Hidden);
 	FInputModeGameOnly InputModeData;
 	/*InputModeData.SetConsumeCaptureMouseDown
 		.SetWidgetToFocus(this->TakeWidget());
