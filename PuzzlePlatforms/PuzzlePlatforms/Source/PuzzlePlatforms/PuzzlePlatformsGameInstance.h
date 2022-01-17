@@ -35,6 +35,7 @@ public:
 
 	virtual void LoadMainMenu() override;
 	virtual void Quit() override;
+	virtual void RefreshServerList() override;
 
 private:
 	TSubclassOf<class UUserWidget> MenuClass;

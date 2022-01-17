@@ -6,6 +6,7 @@
 #include "Components/Button.h"
 #include "Components/WidgetSwitcher.h"
 #include "Components/EditableTextBox.h"
+#include "Components/TextBlock.h"
 
 #include "ServerRow.h"
 
@@ -20,6 +21,21 @@ UMainMenu::UMainMenu(const FObjectInitializer& ObjectInitializer)
 		UE_LOG(LogTemp, Warning, TEXT("Found class %s"), *ServerRowBPClass.Class->GetName());
 	}
 
+}
+
+void UMainMenu::SetServerList(TArray<FString> ServerNames)
+{
+	ServerList->ClearChildren();
+
+	for (const FString& ServerName : ServerNames)
+	{
+		UServerRow* ServerRow = CreateWidget<UServerRow>(this, ServerRowClass);
+		if (!ensure(ServerRow != nullptr)) return;
+
+		ServerRow->ServerName->SetText(FText::FromString(ServerName));
+
+		ServerList->AddChild(ServerRow);
+	}
 }
 
 bool UMainMenu::Initialize()
@@ -70,11 +86,7 @@ void UMainMenu::OnJoinClicked()
 	if (MenuInterface && IpAddressField)
 	{
 		//MenuInterface->Join(IpAddressField->GetText().ToString());
-
-		UServerRow* ServerRow = CreateWidget<UServerRow>(this, ServerRowClass);
-		if (!ensure(ServerRow != nullptr)) return;
-
-		ServerList->AddChild(ServerRow);
+		MenuInterface->Join("");
 	}
 }
 
@@ -84,6 +96,11 @@ void UMainMenu::OpenJoinMenu()
 	if (!MenuSwitcher) return;
 	if (!JoinMenu) return;
 	MenuSwitcher->SetActiveWidget(JoinMenu);
+
+	if (MenuInterface != nullptr)
+	{
+		MenuInterface->RefreshServerList();
+	}
 }
 
 void UMainMenu::OpenMainMenu()
