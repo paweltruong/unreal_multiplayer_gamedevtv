@@ -84,6 +84,13 @@ bool UMainMenu::Initialize()
 	if (!MainMenuButton) return false;
 	MainMenuButton->OnClicked.AddDynamic(this, &UMainMenu::OpenMainMenu);
 
+
+	if (!ConfirmHostMenuButton) return false;
+	ConfirmHostMenuButton->OnClicked.AddDynamic(this, &UMainMenu::OnConfirmHostClicked);
+
+	if (!CancelHostMenuButton) return false;
+	CancelHostMenuButton->OnClicked.AddDynamic(this, &UMainMenu::OpenMainMenu);
+
 	return true;
 }
 
@@ -95,13 +102,22 @@ void UMainMenu::OnExitClicked()
 	}
 }
 
+
 void UMainMenu::OnHostClicked()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Host button clicked"));
 
+	if (!MenuSwitcher) return;
+	if (!HostMenu) return;
+	MenuSwitcher->SetActiveWidget(HostMenu);
+}
+
+
+void UMainMenu::OnConfirmHostClicked()
+{
 	if (MenuInterface)
 	{
-		MenuInterface->Host();
+		MenuInterface->Host(HostNameField->Text.ToString());
 	}
 }
 
@@ -136,7 +152,7 @@ void UMainMenu::OpenJoinMenu()
 
 void UMainMenu::OpenMainMenu()
 {
-	UE_LOG(LogTemp, Warning, TEXT("MainMenu button clicked"));
+	//UE_LOG(LogTemp, Warning, TEXT("MainMenu button clicked"));
 	if (!MenuSwitcher) return;
 	if (!MainMenu) return;
 	MenuSwitcher->SetActiveWidget(MainMenu);

@@ -64,7 +64,18 @@ private:
 		class UWidget* MainMenu;
 
 	UPROPERTY(meta = (BindWidget))
+		class UWidget* HostMenu;
+
+	UPROPERTY(meta = (BindWidget))
 		class UEditableTextBox* IpAddressField;
+
+
+	UPROPERTY(meta = (BindWidget))
+		class UButton* CancelHostMenuButton;
+	UPROPERTY(meta = (BindWidget))
+		class UButton* ConfirmHostMenuButton;
+	UPROPERTY(meta = (BindWidget))
+		class UEditableTextBox* HostNameField;
 
 	UPROPERTY(meta = (BindWidget))
 		class UPanelWidget* ServerList;
@@ -80,6 +91,8 @@ private:
 		void OpenJoinMenu();
 	UFUNCTION()
 		void OpenMainMenu();
+	UFUNCTION()
+		void OnConfirmHostClicked();
 
 	TOptional<uint32> SelectedIndex;
 	void UpdateChildren();
