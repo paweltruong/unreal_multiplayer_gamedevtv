@@ -134,6 +134,9 @@ void UPuzzlePlatformsGameInstance::OnFindSessionsComplete(bool Success)
 	{
 		TArray<FString> ServerNames;
 
+		ServerNames.Add("Test Server1");
+		ServerNames.Add("Test Server2");
+		ServerNames.Add("Test Server3");
 
 		for (const FOnlineSessionSearchResult& SearchResult : SessionSearch->SearchResults)
 		{
