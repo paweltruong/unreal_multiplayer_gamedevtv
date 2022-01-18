@@ -14,6 +14,7 @@
 #include "MenuSystem/MainMenu.h"
 #include "menuSystem/MenuWidget.h"
 
+const static int32 MAX_PLAYERS = 5;
 const static FName SESSION_NAME = NAME_GameSession;//TEXT("Game");
 const static FName SERVER_NAME_SETTINGS_KEY = TEXT("ServerName");
 
@@ -198,7 +199,7 @@ void UPuzzlePlatformsGameInstance::CreateSession()
 			}
 		}
 
-		SessionSettings.NumPublicConnections = 2;
+		SessionSettings.NumPublicConnections = MAX_PLAYERS;
 		SessionSettings.bShouldAdvertise = true;
 		SessionSettings.bUsesPresence = true;
 		SessionSettings.bUseLobbiesIfAvailable = true;
