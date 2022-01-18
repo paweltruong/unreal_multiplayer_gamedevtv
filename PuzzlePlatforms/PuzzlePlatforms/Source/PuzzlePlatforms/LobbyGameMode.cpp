@@ -17,6 +17,7 @@ void ALobbyGameMode::PostLogin(APlayerController* NewPlayer)
 		UWorld* World = GetWorld();
 		if (!ensure(World != nullptr)) return;
 
+		bUseSeamlessTravel = true;
 		World->ServerTravel("/Game/PuzzlePlatforms/Maps/Game?listen");
 	}
 }
