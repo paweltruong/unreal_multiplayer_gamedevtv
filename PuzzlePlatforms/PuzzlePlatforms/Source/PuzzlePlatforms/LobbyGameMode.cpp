@@ -5,6 +5,8 @@
 
 #include "TimerManager.h"
 
+#include "PuzzlePlatformsGameInstance.h"
+
 const static int32 MIN_PLAYERS = 2;
 const static float START_DELAY = 5;
 
@@ -30,6 +32,12 @@ void ALobbyGameMode::Logout(AController* Exiting)
 
 void ALobbyGameMode::StartGame()
 {
+	auto PuzzleGameInstance = Cast<UPuzzlePlatformsGameInstance>(GetGameInstance());
+	if (PuzzleGameInstance == nullptr) return;
+
+	PuzzleGameInstance->StartSession();
+
+
 	UWorld* World = GetWorld();
 	if (!ensure(World != nullptr)) return;
 

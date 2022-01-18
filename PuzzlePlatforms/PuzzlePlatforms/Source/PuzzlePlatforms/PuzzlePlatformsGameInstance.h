@@ -39,6 +39,12 @@ public:
 	virtual void RefreshServerList() override;
 	virtual void Join(const uint32 Index) override;
 
+
+	/// <summary>
+	/// Locks game from joining, session is in progress
+	/// </summary>
+	void StartSession();
+
 private:
 	TSubclassOf<class UUserWidget> MenuClass;
 	class UMainMenu* Menu;

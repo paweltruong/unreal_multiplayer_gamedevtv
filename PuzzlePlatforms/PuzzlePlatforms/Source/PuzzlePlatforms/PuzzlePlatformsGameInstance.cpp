@@ -248,6 +248,14 @@ void UPuzzlePlatformsGameInstance::Join(const uint32 Index)
 
 }
 
+void UPuzzlePlatformsGameInstance::StartSession()
+{
+	if (SessionInterface.IsValid())
+	{
+		SessionInterface->StartSession(SESSION_NAME);
+	}
+}
+
 void UPuzzlePlatformsGameInstance::LoadInGameMenu()
 {
 	if (InGameMenuClass != nullptr)
