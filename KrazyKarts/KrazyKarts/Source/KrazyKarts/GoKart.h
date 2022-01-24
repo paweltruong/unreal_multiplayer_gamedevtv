@@ -68,6 +68,13 @@ private:
 	void ApplyRotation(float DeltaTime);
 	void UpdateLocationFromVelocity(float DeltaTime);
 
+
+	FString GetEnumText(ENetRole Role);
+
+
+	void MoveForward(float Value);
+	void MoveRight(float Value);
+
 	UFUNCTION(Server, Reliable, WithValidation)
 	/// <summary>
 	/// Handle pressing forwards
