@@ -23,6 +23,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 private:
@@ -39,6 +40,8 @@ private:
 
 	FVector Velocity;
 	float Throttle;
+
+	void UpdateLocationFromVelocity(float DeltaTime);
 
 	/** Handle pressing forwards */
 	void MoveForward(float Val);
