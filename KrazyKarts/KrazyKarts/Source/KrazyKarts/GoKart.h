@@ -60,11 +60,11 @@ private:
 	float SteeringThrow;
 
 
-	UPROPERTY(Replicated)
-	FVector ReplicatedLocation;
-	UPROPERTY(Replicated)
-	FRotator ReplicatedRotation;
+	UPROPERTY(ReplicatedUsing= OnRep_ReplicatedTransform)
+	FTransform ReplicatedTransform;
 
+	UFUNCTION()
+	void OnRep_ReplicatedTransform();
 
 	/// <summary>
 	/// Calculate air resistance
