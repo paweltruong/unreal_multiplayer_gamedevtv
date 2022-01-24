@@ -68,24 +68,25 @@ private:
 	void ApplyRotation(float DeltaTime);
 	void UpdateLocationFromVelocity(float DeltaTime);
 
+	UFUNCTION(Server, Reliable, WithValidation)
 	/// <summary>
 	/// Handle pressing forwards
 	/// </summary>
 	/// <param name="Val"></param>
-	void MoveForward(float Value);
+	void Server_MoveForward(float Value);
+	void Server_MoveForward_Implementation(float Value);
+	bool Server_MoveForward_Validate(float Value);
+	//LNK2001	unresolved external symbol "public: virtual void __cdecl AGoKart::Server_MoveForward_Implementation(float)" (? Server_MoveForward_Implementation@AGoKart@@UEAAXM@Z)	KrazyKarts	C : \Repos\unreal_multiplayer_gamedevtv\unreal_multiplayer_gamedevtv\KrazyKarts\KrazyKarts\Intermediate\ProjectFiles\GoKart.cpp.obj	1
+	//LNK2001	unresolved external symbol "public: virtual bool __cdecl AGoKart::Server_MoveForward_Validate(float)" (? Server_MoveForward_Validate@AGoKart@@UEAA_NM@Z)	KrazyKarts	C : \Repos\unreal_multiplayer_gamedevtv\unreal_multiplayer_gamedevtv\KrazyKarts\KrazyKarts\Intermediate\ProjectFiles\GoKart.gen.cpp.obj	1
+
+
+
+	UFUNCTION(Server, Reliable, WithValidation)
 	/// <summary>
 	/// Handle pressing right
 	/// </summary>
 	/// <param name="Val"></param>
-	void MoveRight(float Value);
-
-	///** Setup the strings used on the hud */
-	//void SetupInCarHUD();
-
-	///** Update the physics material used by the vehicle mesh */
-	//void UpdatePhysicsMaterial();
-	///** Handle handbrake pressed */
-	//void OnHandbrakePressed();
-	///** Handle handbrake released */
-	//void OnHandbrakeReleased();
+	void Server_MoveRight(float Value);
+	void Server_MoveRight_Implementation(float Value);
+	bool Server_MoveRight_Validate(float Value);
 };
