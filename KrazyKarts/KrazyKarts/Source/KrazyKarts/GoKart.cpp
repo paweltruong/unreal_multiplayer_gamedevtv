@@ -54,8 +54,10 @@ FVector AGoKart::GetRollingResistance()
 
 void AGoKart::ApplyRotation(float DeltaTime)
 {
-	float RotationAngle = MaxDegreesPerSecond * SteeringThrow * DeltaTime;
-	FQuat RotationDelta(GetActorUpVector(), FMath::DegreesToRadians(RotationAngle));
+	float DeltaLocation = FVector::DotProduct(GetActorForwardVector(), Velocity)/*when reversing swap left and right steering*/
+		* DeltaTime;
+	float RotationAngle = DeltaLocation / MinimumTurningRadius * SteeringThrow;
+	FQuat RotationDelta(GetActorUpVector(), RotationAngle);
 
 	Velocity = RotationDelta.RotateVector(Velocity);
 
