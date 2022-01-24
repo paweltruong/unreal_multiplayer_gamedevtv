@@ -48,12 +48,22 @@ private:
 	/// </summary>
 	UPROPERTY(EditAnywhere)
 	float DragCoefficiency = 16;
+	/// <summary>
+	/// Higher means more rolling resistance https://en.wikipedia.org/wiki/Rolling_resistance
+	/// </summary>
+	UPROPERTY(EditAnywhere)
+	float RollingResistanceCoefficiency = 0.015;
 
 	FVector Velocity;
 	float Throttle;
 	float SteeringThrow;
 
-	FVector GetResistance();
+	/// <summary>
+	/// Calculate air resistance
+	/// </summary>
+	/// <returns></returns>
+	FVector GetAirResistance();
+	FVector GetRollingResistance();
 	void ApplyRotation(float DeltaTime);
 	void UpdateLocationFromVelocity(float DeltaTime);
 
