@@ -24,6 +24,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 
+
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 private:
@@ -37,21 +38,35 @@ private:
 	/// </summary>
 	UPROPERTY(EditAnywhere)
 	float MaxDrivingForce = 10000;
+	/// <summary>
+	/// The number of degrees rotated per second at full controll throw (degrees/s)
+	/// </summary>
+	UPROPERTY(EditAnywhere)
+	float MaxDegreesPerSecond = 90;
 
 	FVector Velocity;
 	float Throttle;
+	float SteeringThrow;
 
+	void ApplyRotation(float DeltaTime);
 	void UpdateLocationFromVelocity(float DeltaTime);
 
-	/** Handle pressing forwards */
-	void MoveForward(float Val);
+	/// <summary>
+	/// Handle pressing forwards
+	/// </summary>
+	/// <param name="Val"></param>
+	void MoveForward(float Value);
+	/// <summary>
+	/// Handle pressing right
+	/// </summary>
+	/// <param name="Val"></param>
+	void MoveRight(float Value);
+
 	///** Setup the strings used on the hud */
 	//void SetupInCarHUD();
 
 	///** Update the physics material used by the vehicle mesh */
 	//void UpdatePhysicsMaterial();
-	///** Handle pressing right */
-	//void MoveRight(float Val);
 	///** Handle handbrake pressed */
 	//void OnHandbrakePressed();
 	///** Handle handbrake released */
