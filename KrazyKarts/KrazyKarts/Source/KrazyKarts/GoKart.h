@@ -59,6 +59,13 @@ private:
 	float Throttle;
 	float SteeringThrow;
 
+
+	UPROPERTY(Replicated)
+	FVector ReplicatedLocation;
+	UPROPERTY(Replicated)
+	FRotator ReplicatedRotation;
+
+
 	/// <summary>
 	/// Calculate air resistance
 	/// </summary>
