@@ -48,9 +48,14 @@ private:
 	UPROPERTY()
 	UGoKartMovementComponent* MovementComponent;
 
+	float ClientTimeSinceUpdate;
+	float ClientTimeBetweenLastUpdates;
+	FVector ClientStartLocation;
 
 	UFUNCTION()
 	void OnRep_ServerState();
+	void SimulatedProxy_OnRep_ServerState();
+	void AutonomousProxy_OnRep_ServerState();
 
 	void ClearAcknowledgedMoves(FGoKartMove LastMove);
 
@@ -66,4 +71,6 @@ private:
 	//LNK2001	unresolved external symbol "public: virtual bool __cdecl AGoKart::Server_MoveForward_Validate(float)" (? Server_MoveForward_Validate@AGoKart@@UEAA_NM@Z)	KrazyKarts	C : \Repos\unreal_multiplayer_gamedevtv\unreal_multiplayer_gamedevtv\KrazyKarts\KrazyKarts\Intermediate\ProjectFiles\GoKart.gen.cpp.obj	1
 		
 	void UpdateServerState(const FGoKartMove& Move);
+
+	void ClientTick(float DeltaTime);
 };

@@ -52,7 +52,7 @@ void UGoKartMovementReplicator::TickComponent(float DeltaTime, ELevelTick TickTy
 	}
 	if (LocalRole == ROLE_SimulatedProxy)
 	{
-		MovementComponent->SimulateMove(ServerState.LastMove);
+		ClientTick(DeltaTime);
 	}
 }
 
@@ -63,6 +63,20 @@ void UGoKartMovementReplicator::UpdateServerState(const FGoKartMove& Move)
 	ServerState.Velocity = MovementComponent->GetVelocity();
 }
 
+void UGoKartMovementReplicator::ClientTick(float DeltaTime)
+{
+	ClientTimeSinceUpdate += DeltaTime;
+
+	if (ClientTimeBetweenLastUpdates < KINDA_SMALL_NUMBER) return;
+
+	FVector TargetLocation = ServerState.Transform.GetLocation();
+	float LerpRatio = ClientTimeSinceUpdate / ClientTimeBetweenLastUpdates;
+	FVector StartLocation = ClientStartLocation;
+
+	FVector NewLocation = FMath::LerpStable(StartLocation, TargetLocation, LerpRatio);
+	GetOwner()->SetActorLocation(NewLocation);
+}
+
 
 void UGoKartMovementReplicator::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
 {
@@ -71,7 +85,22 @@ void UGoKartMovementReplicator::GetLifetimeReplicatedProps(TArray< FLifetimeProp
 	DOREPLIFETIME(UGoKartMovementReplicator, ServerState);
 }
 
-void  UGoKartMovementReplicator::OnRep_ServerState()
+void UGoKartMovementReplicator::OnRep_ServerState()
+{
+	switch(GetOwnerRole())
+	{
+		case ROLE_AutonomousProxy:
+			AutonomousProxy_OnRep_ServerState();
+			break;
+		case ROLE_SimulatedProxy:
+			SimulatedProxy_OnRep_ServerState();
+			break;
+		default:
+			break;
+	}
+}
+
+void UGoKartMovementReplicator::AutonomousProxy_OnRep_ServerState()
 {
 	if (MovementComponent == nullptr) return;
 
@@ -88,6 +117,15 @@ void  UGoKartMovementReplicator::OnRep_ServerState()
 		MovementComponent->SimulateMove(Move);
 	}
 }
+void UGoKartMovementReplicator::SimulatedProxy_OnRep_ServerState()
+{
+	ClientTimeBetweenLastUpdates = ClientTimeSinceUpdate;
+	ClientTimeSinceUpdate = 0;
+
+	ClientStartLocation = GetOwner()->GetActorLocation();
+}
+
+
 void UGoKartMovementReplicator::Server_SendMove_Implementation(FGoKartMove Move)
 {
 	if (MovementComponent == nullptr) return;
