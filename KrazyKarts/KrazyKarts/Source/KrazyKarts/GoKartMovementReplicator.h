@@ -67,6 +67,12 @@ private:
 	FTransform ClientStartTransform;
 	FVector ClientStartVelocity;
 
+	UPROPERTY()
+	USceneComponent* MeshOffsetRoot;
+
+
+	UFUNCTION(BlueprintCallable)
+	void SetMeshOffsetRoot(USceneComponent* Root) { MeshOffsetRoot = Root; }
 	UFUNCTION()
 	void OnRep_ServerState();
 	void SimulatedProxy_OnRep_ServerState();
