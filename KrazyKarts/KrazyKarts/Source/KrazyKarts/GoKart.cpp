@@ -40,20 +40,25 @@ void AGoKart::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (IsLocallyControlled())
+	ENetRole LocalRole = GetLocalRole();
+	if (LocalRole == ROLE_AutonomousProxy)
 	{
 		FGoKartMove Move = CreateMove(DeltaTime);
-
-		if (!HasAuthority())
-		{
-			UnacknowledgedMoves.Add(Move);
-			SimulateMove(Move);
-		}
+		SimulateMove(Move);
+		UnacknowledgedMoves.Add(Move);
+		Server_SendMove(Move);
 
 		UE_LOG(LogTemp, Warning, TEXT("Queue length: %d"), UnacknowledgedMoves.Num());
-
+	}
+	if (LocalRole == ROLE_Authority && IsLocallyControlled())
+	{
+		FGoKartMove Move = CreateMove(DeltaTime);
 		Server_SendMove(Move);
-	}	
+	}
+	if (LocalRole == ROLE_SimulatedProxy)
+	{
+		SimulateMove(ServerState.LastMove);
+	}
 
 	DrawDebugString(GetWorld(), FVector(0, 0, 100), GetEnumText(GetLocalRole()), this, FColor::White, DeltaTime);
 }
