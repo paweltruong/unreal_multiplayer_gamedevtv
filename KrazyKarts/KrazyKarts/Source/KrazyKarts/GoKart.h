@@ -56,7 +56,9 @@ private:
 
 	UPROPERTY(Replicated)
 	FVector Velocity;
+	UPROPERTY(Replicated)
 	float Throttle;
+	UPROPERTY(Replicated)
 	float SteeringThrow;
 
 
