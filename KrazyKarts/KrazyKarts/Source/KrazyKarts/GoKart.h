@@ -95,6 +95,7 @@ private:
 
 	float Throttle;
 	float SteeringThrow;
+	TArray<FGoKartMove> UnacknowledgedMoves;
 
 	UFUNCTION()
 	void OnRep_ServerState();
@@ -111,6 +112,9 @@ private:
 
 	FString GetEnumText(ENetRole Role);
 
+
+	FGoKartMove CreateMove(float DeltaTime);
+	void ClearAcknowledgedMoves(FGoKartMove LastMove);
 
 	void MoveForward(float Value);
 	void MoveRight(float Value);
