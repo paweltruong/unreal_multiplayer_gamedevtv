@@ -93,9 +93,7 @@ private:
 
 	FVector Velocity;
 
-	UPROPERTY(Replicated)
 	float Throttle;
-	UPROPERTY(Replicated)
 	float SteeringThrow;
 
 	UFUNCTION()
@@ -107,7 +105,7 @@ private:
 	/// <returns></returns>
 	FVector GetAirResistance();
 	FVector GetRollingResistance();
-	void ApplyRotation(float DeltaTime);
+	void ApplyRotation(float DeltaTime, float InSteeringThrow);
 	void UpdateLocationFromVelocity(float DeltaTime);
 
 
@@ -117,25 +115,16 @@ private:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 
+	void SimulateMove(FGoKartMove Move);
+
 	UFUNCTION(Server, Reliable, WithValidation)
 	/// <summary>
 	/// Handle pressing forwards
 	/// </summary>
 	/// <param name="Val"></param>
-	void Server_MoveForward(float Value);
-	void Server_MoveForward_Implementation(float Value);
-	bool Server_MoveForward_Validate(float Value);
+	void Server_SendMove(FGoKartMove Move);
+	void Server_SendMove_Implementation(FGoKartMove Move);
+	bool Server_SendMove_Validate(FGoKartMove Move);
 	//LNK2001	unresolved external symbol "public: virtual void __cdecl AGoKart::Server_MoveForward_Implementation(float)" (? Server_MoveForward_Implementation@AGoKart@@UEAAXM@Z)	KrazyKarts	C : \Repos\unreal_multiplayer_gamedevtv\unreal_multiplayer_gamedevtv\KrazyKarts\KrazyKarts\Intermediate\ProjectFiles\GoKart.cpp.obj	1
 	//LNK2001	unresolved external symbol "public: virtual bool __cdecl AGoKart::Server_MoveForward_Validate(float)" (? Server_MoveForward_Validate@AGoKart@@UEAA_NM@Z)	KrazyKarts	C : \Repos\unreal_multiplayer_gamedevtv\unreal_multiplayer_gamedevtv\KrazyKarts\KrazyKarts\Intermediate\ProjectFiles\GoKart.gen.cpp.obj	1
-
-
-
-	UFUNCTION(Server, Reliable, WithValidation)
-	/// <summary>
-	/// Handle pressing right
-	/// </summary>
-	/// <param name="Val"></param>
-	void Server_MoveRight(float Value);
-	void Server_MoveRight_Implementation(float Value);
-	bool Server_MoveRight_Validate(float Value);
 };
