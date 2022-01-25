@@ -50,7 +50,7 @@ private:
 
 	float ClientTimeSinceUpdate;
 	float ClientTimeBetweenLastUpdates;
-	FVector ClientStartLocation;
+	FTransform ClientStartTransform;
 
 	UFUNCTION()
 	void OnRep_ServerState();
