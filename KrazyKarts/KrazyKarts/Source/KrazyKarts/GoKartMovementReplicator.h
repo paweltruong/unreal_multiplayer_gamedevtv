@@ -65,4 +65,5 @@ private:
 	//LNK2001	unresolved external symbol "public: virtual void __cdecl AGoKart::Server_MoveForward_Implementation(float)" (? Server_MoveForward_Implementation@AGoKart@@UEAAXM@Z)	KrazyKarts	C : \Repos\unreal_multiplayer_gamedevtv\unreal_multiplayer_gamedevtv\KrazyKarts\KrazyKarts\Intermediate\ProjectFiles\GoKart.cpp.obj	1
 	//LNK2001	unresolved external symbol "public: virtual bool __cdecl AGoKart::Server_MoveForward_Validate(float)" (? Server_MoveForward_Validate@AGoKart@@UEAA_NM@Z)	KrazyKarts	C : \Repos\unreal_multiplayer_gamedevtv\unreal_multiplayer_gamedevtv\KrazyKarts\KrazyKarts\Intermediate\ProjectFiles\GoKart.gen.cpp.obj	1
 		
+	void UpdateServerState(const FGoKartMove& Move);
 };
