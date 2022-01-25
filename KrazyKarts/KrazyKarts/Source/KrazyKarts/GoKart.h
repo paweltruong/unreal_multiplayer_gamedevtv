@@ -87,19 +87,19 @@ private:
 	UPROPERTY(EditAnywhere)
 	float RollingResistanceCoefficiency = 0.015;
 
-	UPROPERTY(Replicated)
+
+	UPROPERTY(ReplicatedUsing = OnRep_ServerState)
+	FGoKartState ServerState;
+
 	FVector Velocity;
+
 	UPROPERTY(Replicated)
 	float Throttle;
 	UPROPERTY(Replicated)
 	float SteeringThrow;
 
-
-	UPROPERTY(ReplicatedUsing= OnRep_ReplicatedTransform)
-	FTransform ReplicatedTransform;
-
 	UFUNCTION()
-	void OnRep_ReplicatedTransform();
+	void OnRep_ServerState();
 
 	/// <summary>
 	/// Calculate air resistance
