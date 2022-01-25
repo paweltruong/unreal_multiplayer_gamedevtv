@@ -66,6 +66,12 @@ void  AGoKart::OnRep_ServerState()
 	Velocity = ServerState.Velocity;
 
 	ClearAcknowledgedMoves(ServerState.LastMove);
+
+	TArray<FGoKartMove> NewMoves;
+	for (const FGoKartMove& Move : UnacknowledgedMoves)
+	{
+		SimulateMove(Move);
+	}
 }
 
 FString AGoKart::GetEnumText(ENetRole InRole)
@@ -87,7 +93,7 @@ FString AGoKart::GetEnumText(ENetRole InRole)
 	}
 }
 
-void AGoKart::SimulateMove(FGoKartMove Move)
+void AGoKart::SimulateMove(const FGoKartMove Move)
 {
 	FVector Force = GetActorForwardVector() * MaxDrivingForce * Move.Throttle;
 
