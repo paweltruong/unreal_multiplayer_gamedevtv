@@ -21,10 +21,10 @@ void AGoKart::BeginPlay()
 {
 	Super::BeginPlay();
 
-	/*if (HasAuthority())
+	if (HasAuthority())
 	{
 		NetUpdateFrequency = 1;
-	}*/
+	}
 }
 
 void AGoKart::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
@@ -33,6 +33,7 @@ void AGoKart::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetim
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(AGoKart, ReplicatedTransform);
+	DOREPLIFETIME(AGoKart, Velocity);
 }
 
 // Called every frame
