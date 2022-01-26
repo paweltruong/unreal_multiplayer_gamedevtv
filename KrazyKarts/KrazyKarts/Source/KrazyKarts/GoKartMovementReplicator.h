@@ -13,7 +13,7 @@ struct FGoKartState
 {
 	GENERATED_USTRUCT_BODY()
 
-public:
+
 	UPROPERTY()
 	FTransform Transform;
 	UPROPERTY()
@@ -66,6 +66,8 @@ private:
 	float ClientTimeBetweenLastUpdates;
 	FTransform ClientStartTransform;
 	FVector ClientStartVelocity;
+	float ClientSimulatedTime;
+
 
 	UPROPERTY()
 	USceneComponent* MeshOffsetRoot;
